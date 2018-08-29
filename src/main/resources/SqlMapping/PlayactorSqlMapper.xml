@@ -1,0 +1,33 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chenkh.media.mapper.PlayactorMapper">
+
+    <select id="getImg" resultType="HashMap">
+        SELECT img from playactor_info
+        <where>
+            id = #{id}
+        </where>
+    </select>
+    <select id="customQuery" resultType="HashMap">
+        SELECT `id`, `name`, `type`, `point`, `face_rate`, `figure_rate`, `vagina_rate`, `breast_rate`
+        from playactor_info ORDER BY (face_rate+figure_rate+vagina_rate+breast_rate) desc
+    </select>
+    <insert id="insert">
+        INSERT INTO `playactor_info`(`id`, `name`, `img`, `type`, `point`, `face_rate`, `figure_rate`, `vagina_rate`, `breast_rate`)
+        VALUES (#{id}, #{name}, #{img,jdbcType=BLOB}, #{type}, #{point}, #{face_rate}, #{figure_rate}, #{vagina_rate}, #{breast_rate})
+    </insert>
+    <update id="update">
+        UPDATE `playactor_info` SET `name` = #{name},
+        <if test="img != null">
+            `img` = #{img,jdbcType=BLOB},
+        </if>
+        `type` = #{type}, `point` = #{point}, `face_rate` = #{face_rate}, `figure_rate` = #{figure_rate},
+        `vagina_rate` =  #{vagina_rate}, `breast_rate` = #{breast_rate}
+        WHERE `id` = #{id}
+    </update>
+    <delete id="deleteByid">
+        DELETE FROM playactor_info WHERE id = #{id}
+    </delete>
+</mapper>

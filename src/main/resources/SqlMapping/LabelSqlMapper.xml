@@ -1,0 +1,38 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chenkh.media.mapper.LabelMapper">
+
+
+    <select id="customQuery" resultType="HashMap">
+        SELECT li.* , count(sv.id) as num
+        FROM label_info li
+        LEFT JOIN store_video sv ON li.id = sv.distributor_id
+        <where>
+            li.label_class = #{type}
+        </where>
+        GROUP BY li.id
+    </select>
+
+    <insert id="insert">
+        INSERT INTO `label_info`(`id`, `label_name`, `describe`, `last_change_time`, `label_class`)
+        VALUES ( #{id} , #{label_name}, #{describe}, #{last_change_time}, #{type})
+    </insert>
+    <update id="update">
+        UPDATE `label_info` SET `label_name` = #{label_name},
+         `describe` =#{describe}, `last_change_time` = #{last_change_time} WHERE `id` = #{id}
+    </update>
+    <delete id="deleteByid">
+        DELETE FROM `label_info` WHERE `id` IN
+        <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+    </delete>
+    <select id="queryAllForCombo" resultType="HashMap">
+        SELECT label_name AS name, id as `value` from label_info
+        <where>
+            label_class = #{type}
+        </where>
+    </select>
+</mapper>
