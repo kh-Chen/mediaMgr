@@ -9,9 +9,9 @@ public class MyWebAppConfigurer extends WebMvcConfigurationSupport {
 
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-
-        registry.addResourceHandler("/E/**").addResourceLocations("file:E:/");
-        registry.addResourceHandler("/G/**").addResourceLocations("file:G:/");
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/");
+//        registry.addResourceHandler("/E/**").addResourceLocations("file:E:/");
+//        registry.addResourceHandler("/G/**").addResourceLocations("file:G:/");
         super.addResourceHandlers(registry);
     }
 }
